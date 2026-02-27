@@ -93,7 +93,8 @@ export async function DELETE(request) {
             return NextResponse.json({ error: 'Endpoint erforderlich' }, { status: 400 });
         }
 
-        db.deletePushSubscription(decodeURIComponent(endpoint));
+        // SECURITY: Pass user.id to ensure users can only delete their own subscriptions
+        db.deletePushSubscription(decodeURIComponent(endpoint), user.id);
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Delete push subscription error:', error);

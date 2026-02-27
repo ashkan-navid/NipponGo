@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 const db = require('../../../lib/db.js');
 const { checkAuth, checkCSRF } = require('../../../lib/withAuth.js');
 const { sanitizeString } = require('../../../lib/sanitize.js');
+const { checkRateLimit } = require('../../../lib/rateLimit.js');
 
 // GET - Get all packing items for user (optionally synced with friends)
 export async function GET(request) {
@@ -33,6 +34,12 @@ export async function GET(request) {
 // POST - Toggle item, add custom item, or reset all checks
 export async function POST(request) {
     try {
+        // SECURITY: Rate-limit packing mutations (CWE-770)
+        const rateResult = checkRateLimit(request, 'general');
+        if (!rateResult.allowed) {
+            return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429 });
+        }
+
         const user = await checkAuth();
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

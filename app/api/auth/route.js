@@ -213,8 +213,8 @@ export async function PUT(request) {
         // Create session - returns { token, expiresAt }
         const session = db.createSession(newUser.id);
 
-        // Generate CSRF token and store it
-        const csrfToken = generateCSRFToken();
+        // SECURITY: Pass session.token to derive CSRF via HMAC (CWE-352 fix)
+        const csrfToken = generateCSRFToken(session.token);
         storeCSRFToken(session.token, csrfToken);
 
         // Set cookies

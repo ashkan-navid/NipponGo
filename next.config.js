@@ -23,6 +23,16 @@ const nextConfig = {
                         key: 'Referrer-Policy',
                         value: 'strict-origin-when-cross-origin',
                     },
+                    // SECURITY: HSTS enforces HTTPS connections (CWE-319)
+                    ...(process.env.NODE_ENV === 'production' ? [{
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=63072000; includeSubDomains; preload',
+                    }] : []),
+                    // SECURITY: Restrict browser features (CWE-693)
+                    {
+                        key: 'Permissions-Policy',
+                        value: 'camera=(), microphone=(), payment=(), usb=()',
+                    },
                     {
                         key: 'Content-Security-Policy',
                         // Note: 'unsafe-inline' needed for dark mode flash fix (layout.jsx inline script) and Next.js hydration

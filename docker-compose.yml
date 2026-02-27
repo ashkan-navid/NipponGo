@@ -19,6 +19,8 @@ services:
       - VAPID_SUBJECT=${VAPID_SUBJECT:-mailto:noreply@nippon-go.app}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
+      # SECURITY: Enable trusted proxy for correct IP detection behind Traefik
+      - TRUST_PROXY=true
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/auth"]
       interval: 30s
