@@ -1,0 +1,44 @@
+services:
+  japan-travel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: japan-travel-companion
+    restart: unless-stopped
+    volumes:
+      # Persist SQLite database
+      - japan-travel-data:/app/data
+    environment:
+      - NODE_ENV=production
+      - DATABASE_PATH=/app/data/japan-travel.db
+      - OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}
+      - AERODATABOX_API_MARKET_KEY=${AERODATABOX_API_MARKET_KEY}
+      - ALLOWED_ORIGIN=https://nippongo.ashkan-services.de
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
+      - VAPID_SUBJECT=${VAPID_SUBJECT:-mailto:noreply@nippon-go.app}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/auth"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nippongo.rule=Host(`nippongo.ashkan-services.de`)"
+      - "traefik.http.routers.nippongo.entrypoints=websecure"
+      - "traefik.http.routers.nippongo.tls.certresolver=myresolver"
+      - "traefik.http.routers.nippongo.service=nippongo"
+      - "traefik.http.services.nippongo.loadbalancer.server.port=3000"
+
+volumes:
+  japan-travel-data:
+    driver: local
+
+networks:
+  proxy:
+    external: true

@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Build outputs
+.next
+out
+
+# Data
+data/
+*.db
+*.sqlite
+
+# Development
+.env*.local
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+*.md
+
+# Test
+coverage
+.nyc_output
+test-*.js
+*.test.js
+
+# Deployment
+deploy.sh
+
+# IDE config
+jsconfig.json
+
+# AI agent config
+.agent/
+.claude/

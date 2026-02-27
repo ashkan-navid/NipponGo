@@ -1,0 +1,362 @@
+/* Leaflet CSS - must be first for CSS spec compliance */
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input-ios {
+    @apply w-full p-4 bg-ios-gray-100 dark:bg-ios-gray-800 rounded-ios-xl text-ios-gray-950 dark:text-white placeholder:text-ios-gray-500 outline-none focus:ring-2 focus:ring-ios-blue/50 dark:focus:ring-ios-gray-600 transition-all;
+  }
+}
+
+/* iOS Safe Area Insets */
+:root {
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+}
+
+/* Base styles */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in input fields */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#__next {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Safe area utilities */
+.pt-safe {
+  padding-top: var(--sat);
+}
+
+.pb-safe {
+  padding-bottom: var(--sab);
+}
+
+.pl-safe {
+  padding-left: var(--sal);
+}
+
+.pr-safe {
+  padding-right: var(--sar);
+}
+
+/* Leaflet fixes */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  font-family: inherit;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  background: white !important;
+  color: #007AFF !important;
+  font-weight: bold !important;
+  border: none !important;
+}
+
+.dark .leaflet-control-zoom a {
+  background: #1C1C1E !important;
+  color: #007AFF !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #f2f2f7 !important;
+}
+
+.dark .leaflet-control-zoom a:hover {
+  background: #3A3A3C !important;
+}
+
+.leaflet-custom-controls {
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.leaflet-custom-controls a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: white !important;
+  color: #007AFF !important;
+  border: none !important;
+}
+
+.dark .leaflet-custom-controls a {
+  background: #1C1C1E !important;
+  color: #007AFF !important;
+}
+
+.leaflet-custom-controls a:hover {
+  background: #f2f2f7 !important;
+}
+
+.dark .leaflet-custom-controls a:hover {
+  background: #3A3A3C !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 14px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: #1C1C1E !important;
+  color: white !important;
+}
+
+.dark .leaflet-popup-tip {
+  background: #1C1C1E !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Input styles for iOS */
+input[type="date"],
+input[type="datetime-local"] {
+  min-height: 48px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Focus states */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+/* Prevent overscroll */
+.overscroll-none {
+  overscroll-behavior: none;
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg,
+      var(--skeleton-base, #e5e7eb) 25%,
+      var(--skeleton-shine, #f3f4f6) 37%,
+      var(--skeleton-base, #e5e7eb) 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+:is(.dark) .skeleton-shimmer {
+  --skeleton-base: #1c1c1e;
+  --skeleton-shine: #2c2c2e;
+}
+
+/* Confetti */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-particle {
+  position: fixed;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall var(--fall-duration, 3s) linear forwards;
+  animation-delay: var(--fall-delay, 0s);
+  left: var(--fall-x, 50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Sakura fall */
+@keyframes sakuraFall {
+  0% {
+    transform: translateY(-5vh) translateX(0) rotate(0deg);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateY(45vh) translateX(20px) rotate(180deg);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(100vh) translateX(-10px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.sakura-petal {
+  position: fixed;
+  top: 0;
+  font-size: 14px;
+  animation: sakuraFall var(--petal-duration, 6s) ease-in-out forwards;
+  animation-delay: var(--petal-delay, 0s);
+  left: var(--petal-x, 50%);
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* Accessibility: Reduce motion for users with motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

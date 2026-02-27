@@ -1,0 +1,219 @@
+{
+    "name": "NipponGo",
+    "short_name": "NipponGo",
+    "description": "Dein Japan Reisebegleiter — Dashboard, Planung und Reise-Tools",
+    "start_url": "/",
+    "id": "/",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay",
+        "standalone"
+    ],
+    "background_color": "#ffffff",
+    "theme_color": "#007AFF",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "dir": "ltr",
+    "lang": "de",
+    "categories": [
+        "travel",
+        "lifestyle"
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "iarc_rating_id": "",
+    "scope_extensions": [],
+    "icons": [
+        {
+            "src": "/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshots/screenshot-map-narrow.png",
+            "sizes": "380x823",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "NipponGo Kartenansicht mit Hotels und Aktivitäten"
+        },
+        {
+            "src": "/screenshots/screenshot-planning-narrow.png",
+            "sizes": "380x823",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Reiseplanung - Hotels verwalten"
+        },
+        {
+            "src": "/screenshots/screenshot-timeline-narrow.png",
+            "sizes": "380x823",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Timeline-Ansicht der Reise mit Flügen und Aktivitäten"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "short_name": "Start",
+            "description": "Reise-Übersicht und Countdown",
+            "url": "/?tab=dashboard",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Reiseplanung",
+            "short_name": "Planung",
+            "description": "Hotels und Aktivitäten verwalten",
+            "url": "/?tab=planning",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Timeline",
+            "short_name": "Timeline",
+            "description": "Chronologische Reiseübersicht",
+            "url": "/?tab=timeline",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Karte",
+            "short_name": "Karte",
+            "description": "Interaktive Japan-Karte",
+            "url": "/?tab=map",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Packliste",
+            "short_name": "Packliste",
+            "description": "Japan-Reise Packliste",
+            "url": "/?tab=packing",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Entdecken",
+            "short_name": "Entdecken",
+            "description": "Wörterbuch, Japan Knigge und Währungsrechner",
+            "url": "/?tab=discover",
+            "icons": [
+                {
+                    "src": "/icons/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "file_handlers": [
+        {
+            "action": "/?import=true",
+            "accept": {
+                "application/json": [
+                    ".json"
+                ]
+            }
+        }
+    ],
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    },
+    "protocol_handlers": [
+        {
+            "protocol": "web+nippongo",
+            "url": "/?protocol=%s"
+        }
+    ],
+    "share_target": {
+        "action": "/api/share-target",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url",
+            "files": [
+                {
+                    "name": "file",
+                    "accept": [
+                        "application/json",
+                        ".json"
+                    ]
+                }
+            ]
+        }
+    },
+    "widgets": [],
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "note_taking": {
+        "new_note_url": "/?tab=planning"
+    },
+    "handle_links": "preferred"
+}

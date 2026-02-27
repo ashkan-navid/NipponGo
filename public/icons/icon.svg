@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="256" fill="#FFFFFF"/>
+  
+  <!-- Sun (Red Circle - Japan Flag inspired) -->
+  <circle cx="256" cy="140" r="65" fill="#DC143C"/>
+  
+  <!-- Mount Fuji -->
+  <path d="M 256 180 L 180 340 L 332 340 Z" fill="#4A5D7C" opacity="0.9"/>
+  <path d="M 256 180 L 230 260 L 282 260 Z" fill="#E8F4F8"/>
+  
+  <!-- Torii Gate (Traditional Japanese Gate) -->
+  <g transform="translate(256, 350)">
+    <!-- Top Beam (Kasagi) -->
+    <rect x="-120" y="-30" width="240" height="12" rx="6" fill="#C41E3A"/>
+    <!-- Second Beam (Nuki) -->
+    <rect x="-110" y="-10" width="220" height="8" rx="4" fill="#C41E3A"/>
+    <!-- Left Pillar -->
+    <rect x="-100" y="-10" width="18" height="80" rx="2" fill="#8B0000"/>
+    <!-- Right Pillar -->
+    <rect x="82" y="-10" width="18" height="80" rx="2" fill="#8B0000"/>
+  </g>
+  
+  <!-- Decorative Wave Pattern (Japanese Wave) -->
+  <path d="M 100 420 Q 130 410 160 420 T 220 420 T 280 420 T 340 420 T 400 420" 
+        stroke="#4A90B5" stroke-width="3" fill="none" opacity="0.6"/>
+  <path d="M 110 430 Q 140 420 170 430 T 230 430 T 290 430 T 350 430 T 410 430" 
+        stroke="#4A90B5" stroke-width="2" fill="none" opacity="0.4"/>
+  
+  <!-- Circle Border -->
+  <circle cx="256" cy="256" r="250" fill="none" stroke="#2C3E50" stroke-width="4"/>
+</svg>
