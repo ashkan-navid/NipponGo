@@ -800,7 +800,7 @@ export default function ProfileModal({ isOpen, onClose }) {
 
                                 <div>
                                     <p className="text-xs text-ios-gray-600 dark:text-ios-gray-300 leading-relaxed">
-                                        Entwickelt mit ❤️ von <span className="font-semibold text-ios-blue dark:text-ios-blue">Ashkan Navid</span>.
+                                        Entwickelt mit ❤️ von <span className="font-semibold text-ios-blue dark:text-ios-blue">[Dein Name]</span>.
                                     </p>
                                     <p className="text-xs text-ios-gray-500 dark:text-ios-gray-400 mt-1.5 leading-relaxed">
                                         Wusstest du schon? In Japan gibt es über 5 Millionen Getränkeautomaten (Jidōhanbaiki) – das ist etwa einer für jeden 23. Einwohner!
