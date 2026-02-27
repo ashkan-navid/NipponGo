@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 const db = require('../../../lib/db.js');
 const { checkAuth, checkCSRF } = require('../../../lib/withAuth.js');
 const { sanitizeHotelInput, sanitizeString } = require('../../../lib/sanitize.js');
+const { checkRateLimit } = require('../../../lib/rateLimit.js');
 import { z } from 'zod';
 
 const HotelSchema = z.object({
@@ -68,6 +69,12 @@ export async function GET() {
 // POST - Create hotel
 export async function POST(request) {
     try {
+        // SECURITY: Rate-limit CRUD mutations (CWE-770)
+        const rateResult = checkRateLimit(request, 'general');
+        if (!rateResult.allowed) {
+            return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429 });
+        }
+
         const user = await checkAuth();
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

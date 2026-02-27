@@ -130,12 +130,19 @@ initDatabase().then(() => {
                     return;
                 }
 
+                // SECURITY: Validate payload against whitelist to prevent
+                // injection via crafted socket events (CWE-20)
+                const VALID_TYPES = ['hotels', 'activities', 'flights', 'packing', 'invitations', 'all'];
+                const VALID_ACTIONS = ['add', 'edit', 'delete', 'complete'];
+                const type = VALID_TYPES.includes(payload?.type) ? payload.type : 'all';
+                const action = VALID_ACTIONS.includes(payload?.action) ? payload.action : undefined;
+
                 const friends = getSharedUserIds(socket.userId);
                 const onlineUserIds = Array.from(connectedUsers.values()).map(u => u.id);
 
                 friends.forEach(friendId => {
                     io.to(`user:${friendId}`).emit('data-changed', {
-                        type: payload?.type || 'all',
+                        type,
                         changedBy: socket.userId,
                     });
                 });
@@ -143,8 +150,6 @@ initDatabase().then(() => {
                 // Push to offline friends (never push to the user who triggered the change)
                 const offlineFriends = friends.filter(fid => fid !== socket.userId && !onlineUserIds.includes(fid));
                 if (offlineFriends.length > 0) {
-                    const type = payload?.type || 'Daten';
-                    const action = payload?.action; // add, edit, delete, complete
                     const title = sanitizeForPush(payload?.title, 80);
                     const username = sanitizeForPush(socket.username, 50);
 

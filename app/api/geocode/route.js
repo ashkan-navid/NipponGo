@@ -100,10 +100,34 @@ export async function GET(request) {
             if (!url) {
                 return NextResponse.json({ error: 'URL ist erforderlich' }, { status: 400 });
             }
+
+            // SECURITY: Validate URL against allowlist to prevent SSRF (CWE-918)
+            let parsedUrl;
             try {
-                // Follow redirects to get the final URL (with coordinates)
-                const res = await fetch(url, { redirect: 'follow', headers: { 'User-Agent': 'NipponGo/2.0' } });
-                return NextResponse.json({ resolvedUrl: res.url });
+                parsedUrl = new URL(url);
+            } catch {
+                return NextResponse.json({ error: 'Ungültige URL' }, { status: 400 });
+            }
+
+            const ALLOWED_HOSTS = [
+                'maps.google.com', 'www.google.com', 'google.com',
+                'goo.gl', 'maps.app.goo.gl',
+                'g.co', 'maps.google.de', 'www.google.de',
+            ];
+            if (parsedUrl.protocol !== 'https:' || !ALLOWED_HOSTS.some(h => parsedUrl.hostname === h || parsedUrl.hostname.endsWith('.' + h))) {
+                return NextResponse.json({ error: 'Nur Google Maps URLs sind erlaubt' }, { status: 400 });
+            }
+
+            try {
+                const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(5000), headers: { 'User-Agent': 'NipponGo/2.0' } });
+
+                // SECURITY: Validate resolved URL is also from an allowed domain
+                let resolvedParsed;
+                try { resolvedParsed = new URL(res.url); } catch { /* ignore */ }
+                if (resolvedParsed && resolvedParsed.hostname.includes('google')) {
+                    return NextResponse.json({ resolvedUrl: res.url });
+                }
+                return NextResponse.json({ resolvedUrl: url });
             } catch (err) {
                 return NextResponse.json({ error: 'URL konnte nicht aufgelöst werden', resolvedUrl: url }, { status: 502 });
             }

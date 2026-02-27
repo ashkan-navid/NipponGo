@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 const db = require('../../../lib/db.js');
 const { checkAuth, checkCSRF } = require('../../../lib/withAuth.js');
 const { sanitizeActivityInput } = require('../../../lib/sanitize.js');
+const { checkRateLimit } = require('../../../lib/rateLimit.js');
 import { z } from 'zod';
 
 const ActivitySchema = z.object({
@@ -79,6 +80,12 @@ export async function GET(request) {
 // POST - Create activity
 export async function POST(request) {
     try {
+        // SECURITY: Rate-limit CRUD mutations (CWE-770)
+        const rateResult = checkRateLimit(request, 'general');
+        if (!rateResult.allowed) {
+            return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429 });
+        }
+
         const user = await checkAuth();
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -97,17 +104,10 @@ export async function POST(request) {
             return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
         }
 
-        const data = parsed.data;
+        // SECURITY: Sanitize all input fields to prevent XSS/injection (CWE-20)
+        const sanitized = sanitizeActivityInput(parsed.data);
 
-        const activity = db.createActivity(user.id, {
-            title: data.title,
-            description: data.description || '',
-            type: data.type || 'other',
-            latitude: data.latitude || data.lat || null,
-            longitude: data.longitude || data.lon || null,
-            planned_date: data.planned_date || null,
-            planned_time: data.planned_time || null,
-        }, user.username);
+        const activity = db.createActivity(user.id, sanitized, user.username);
 
         return NextResponse.json({ activity });
     } catch (error) {
@@ -137,19 +137,11 @@ export async function PUT(request) {
             return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
         }
 
-        const data = parsed.data;
+        // SECURITY: Sanitize all input fields to prevent XSS/injection (CWE-20)
+        const sanitized = sanitizeActivityInput(parsed.data);
 
         try {
-            const activity = db.updateActivity(data.id, {
-                title: data.title,
-                description: data.description,
-                type: data.type,
-                latitude: data.latitude || data.lat,
-                longitude: data.longitude || data.lon,
-                planned_date: data.planned_date,
-                planned_time: data.planned_time,
-                completed: data.completed,
-            }, user.id);
+            const activity = db.updateActivity(parsed.data.id, sanitized, user.id);
 
             if (!activity) {
                 return NextResponse.json({ error: 'Activity not found' }, { status: 404 });
