@@ -41,7 +41,7 @@ export async function POST(request) {
       const baseUrl = request.headers.get('origin') ||
                       (request.headers.get('x-forwarded-proto') ?
                         `${request.headers.get('x-forwarded-proto')}://${request.headers.get('host')}` :
-                        'https://nippongo.ashkan-services.de');
+                        'https://your-domain.com');
       const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
       try {

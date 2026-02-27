@@ -13,7 +13,7 @@ services:
       - DATABASE_PATH=/app/data/japan-travel.db
       - OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}
       - AERODATABOX_API_MARKET_KEY=${AERODATABOX_API_MARKET_KEY}
-      - ALLOWED_ORIGIN=https://nippongo.ashkan-services.de
+      - ALLOWED_ORIGIN=${ALLOWED_ORIGIN:-https://your-domain.com}
       - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
       - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
       - VAPID_SUBJECT=${VAPID_SUBJECT:-mailto:noreply@nippon-go.app}
@@ -29,7 +29,7 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nippongo.rule=Host(`nippongo.ashkan-services.de`)"
+      - "traefik.http.routers.nippongo.rule=Host(`your-domain.com`)"
       - "traefik.http.routers.nippongo.entrypoints=websecure"
       - "traefik.http.routers.nippongo.tls.certresolver=myresolver"
       - "traefik.http.routers.nippongo.service=nippongo"
